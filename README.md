@@ -52,6 +52,6 @@ engine = create_engine(
 ```
 4. Run the ETL script
 - Execute the Python script to load data in PostgreSQL database
-- Run SQL scripts to transform and model the data
+- Run two SQL scripts to transform and model the data
 
 
