@@ -3,22 +3,14 @@
 -- ========================================================================
 
 -- step 1: decide the number of columns
--- SELECT string_to_array('a/b/c', '/') AS parts
-SELECT array_length(string_to_array('a/b/c', '/'), 1) AS num_parts;
 
--- string_to_array() is a PostgreSQL function that converts a string into an array, using a separator you specify.
--- If the separator doesn’t exist in the string, you’ll get an array with one element, which is the original string.
--- SELECT string_to_array('123', '/');  -- Result: {123}
-
--- array_length(array, dimension)
--- since this is a column (1D array), the dimension number is 1 (rows). If want to specify the matrix column in an array, dimension is 2. 
 SELECT
     外籍配偶人數,
     array_length(string_to_array(外籍配偶人數, '/'), 1) AS num_parts
 FROM foreign_spouse
 order by num_parts DESC;
 
--- step 2: rename the original table as raw (before doing anything)
+-- step 2: rename the original table as raw 
 alter table foreign_spouse rename to raw_foreign_spouse;
 
 -- according to the results above, all rows in year_month column has 3 parts separated by '/'. 
@@ -128,7 +120,7 @@ from stg_foreign_spouse;
 
 select * from stg_foreign_spouse_tmpt;
 
--- replace all "-" with null: If the value is '-' → replace it with NULL. Otherwise → keep the original value
+-- replace all "-" with null
 UPDATE stg_foreign_spouse_tmpt
 SET
     "港澳配偶_統計" = NULLIF("港澳配偶_統計", '-'),
